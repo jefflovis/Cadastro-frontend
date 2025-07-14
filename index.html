@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Cliente</title>
+</head>
+<body>
+  <h1>Cadastro de Cliente</h1>
+  <form id="form-cadastro">
+    <label>Nome:</label><br />
+    <input type="text" name="nome" required /><br />
+    <label>Email:</label><br />
+    <input type="email" name="email" required /><br />
+    <label>Telefone:</label><br />
+    <input type="text" name="telefone" required /><br /><br />
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <div id="mensagem"></div>
+
+    <script>
+      document.getElementById("form-cadastro").addEventListener("submit", async (e) => {
+        e.preventDefault();
+    
+        const form = e.target;
+        const cliente = {
+          nome: form.nome.value,
+          email: form.email.value,
+          telefone: form.telefone.value
+        };
+    
+        const resposta = await fetch("https://cadastro-backend-hasr.onrender.com/cadastrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cliente)
+        });
+    
+        const resultado = await resposta.json();
+        document.getElementById("mensagem").innerText = resultado.mensagem;
+        form.reset();
+      });
+  </script>
+
+</body>
+</html>
